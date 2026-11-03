@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int P[200005],S[200005];
+int FND(int X) {
+    while(P[X] != X) {
+        P[X] = P[P[X]];
+        X = P[X];
+    }
+    return X;
+}
+void UNI(int A,int B){
+    A = FND(A); B = FND(B);
+    if(A==B) return;
+    if(S[A] < S[B]) swap(A,B);
+    P[B] = A; 
+    S[A] += S[B];
+}
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int N,M,Q; cin >> N >> M >> Q;
+    vector<int> EU(M+1),EV(M+1);
+    for(int i = 1; i <= M; i++) cin >> EU[i] >> EV[i];
+    vector<int> TY(Q),X(Q);
+    vector<char> Blocked(M+1,0);
+    for(int i = 0; i < Q; i++){
+        cin >> TY[i] >> X[i];
+        if(TY[i]==1) Blocked[X[i]] = 1;
+    }
+    for(int i = 1; i <= N; i++) {
+        P[i] = i; S[i] = 1;
+    }
+    for(int i = 1; i <= M; i++) if(!Blocked[i]) UNI(EU[i],EV[i]);
+    vector<int> ans;
+    for(int i = Q-1; i >= 0;i--) {
+        if(TY[i]==1) UNI(EU[X[i]],EV[X[i]]);
+        else ans.push_back(S[FND(X[i])]);
+    }
+    for(int i = (int)ans.size()-1;i>=0;i--)
+        cout << ans[i] << "\n";
+}
