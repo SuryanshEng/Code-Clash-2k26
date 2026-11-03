@@ -1,0 +1,25 @@
+def solve():
+    t = int(input().strip())
+    for i in range(t):
+        n, k, p = map(int, input().split())
+        s = input().strip()
+        al = 0
+        ps = 0
+        for pt in s:
+            avs = (al*p) - ps
+            if pt == 'A':
+                if avs > 0:
+                    ps += 1
+            elif pt == 'B':
+                if al < k:
+                    al += 1
+                    ps += 1
+            elif pt == 'C':
+                if avs > 0:
+                    ps+= 1
+                elif al < k:
+                    al += 1
+                    ps += 1
+        print(ps)
+if __name__ == "__main__":
+    solve()
