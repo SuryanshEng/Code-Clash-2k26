@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ll S(ll K){
+    ll T = K*(K+1)/2; return T*T;
+}
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int Q; cin >> Q;
+    vector<int> L(100001,0),R(100001,0);
+    vector<char> had(100001,0);
+    while(Q--){
+        int T; cin >> T;
+        if( T == 1) {
+            int id,l,r; cin >> id >> l >> r;
+            had[id]=1;L[id]=l;R[id]=r;
+        } else {
+            int id; ll x; cin >> id >> x;
+            if(!had[id]){
+                cout << -1 << "\n"; continue;
+            }
+            int l = L[id], r = R[id];
+            int lo = 1, hi = 20000;
+            while(lo < hi){
+                int mid = (lo + hi + 1) / 2;
+                if(S(mid)<=x) lo = mid; else hi = mid - 1;
+            }
+            int Kt = lo;
+            if(S(Kt)>x){
+                cout <<-1<<"\n"; continue;
+            }
+            if(S(Kt) == x){
+                if(l <= Kt&&Kt<=r) cout << 0 << " " << Kt << "\n";
+                else cout << -1 << "\n";
+            }
+            else {
+                if(l <= Kt&&Kt+1<=r) cout << 1 << " " << Kt << " "<< Kt+1 <<  "\n";
+                else cout << -1 << "\n";
+            }
+        }
+    }
+}
