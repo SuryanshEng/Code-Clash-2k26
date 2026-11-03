@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int N,M; cin >> N >> M;
+    vector<string> f(N);
+    for(auto&s:f) cin >> s;
+    int CNT = 0;
+    int DX[4] = {1,-1,0,0}, DY[4] = {0,0,1,-1};
+    for(int i = 0; i < N; i++)
+        for(int j = 0; j<M;j++) {
+            if(f[i][j] != '#') continue;
+            CNT++;
+            queue<pair<int,int>> Q;
+            Q.push({i,j});
+            f[i][j] = '.';
+            while(!Q.empty()) {
+                auto[X,Y] = Q.front(); Q.pop();
+                for(int D = 0; D < 4; D++) {
+                    int A = X + DX[D], B = Y + DY[D];
+                    if(A>=0&&A<N&&B>=0&&B<M&&f[A][B]=='#') {
+                        f[A][B] = '.';
+                        Q.push({A,B});
+                    }
+            }
+        }
+    }
+    cout << CNT << "\n";
+}
