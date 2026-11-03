@@ -1,0 +1,12 @@
+n, k = map(int, input().split())
+a = list(map(int, input().split()))
+p = []
+for i in range(n - 1):
+    x = a[i] & a[i + 1]
+    p.append(x.bit_count())
+p.sort(reverse=True)
+total = sum(a)
+if k == n:
+    print(total)
+else:
+    print(total - sum(p[k:]))
